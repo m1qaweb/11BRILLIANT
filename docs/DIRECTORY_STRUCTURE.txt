@@ -1,0 +1,25 @@
+﻿Folder PATH listing for volume New Volume
+Volume serial number is B012-872A
+D:\11BRILLIANT\DOCS
+    01-vision-and-tech-stack.md
+    02-database-schema.md
+    03-supabase-setup.md
+    04-nextjs-structure.md
+    05-question-engine.md
+    06-progress-and-streaks.md
+    07-subscriptions.md
+    08-content-authoring.md
+    09-performance.md
+    10-security.md
+    11-testing.md
+    12-local-development.md
+    13-deployment.md
+    14-roadmap.md
+    15-legal-compliance.md
+    16-principles-and-next-steps.md
+    DIRECTORY_STRUCTURE.txt
+    README.md
+    SPLIT_SUMMARY.md
+    
+No subfolders exist 
+

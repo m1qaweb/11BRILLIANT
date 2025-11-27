@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georgian Questions - SQL Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        button {
+            background: #1e40af;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1e3a8a;
+        }
+        button:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+        .output {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .success {
+            background: #dcfce7;
+            border-color: #86efac;
+            color: #166534;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .error {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .instructions {
+            background: #dbeafe;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+        .step {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Georgian Questions SQL Generator</h1>
+        <p class="subtitle">Browser-based tool to generate SQL INSERT statements from your markdown files</p>
+
+        <div class="instructions">
+            <strong>📋 Instructions:</strong>
+            <div class="step">1. Enter your Supabase project URL and service role key below</div>
+            <div class="step">2. Upload each markdown file (მათემატიკა.md, ბიოლოგია.md, etc.)</div>
+            <div class="step">3. Click "Generate SQL" to create INSERT statements</div>
+            <div class="step">4. Copy the generated SQL and run in Supabase SQL Editor</div>
+        </div>
+
+        <label for="supabaseUrl">Supabase URL:</label>
+        <input type="text" id="supabaseUrl" placeholder="https://your-project.supabase.co" />
+
+        <label for="supabaseKey">Service Role Key:</label>
+        <input type="password" id="supabaseKey" placeholder="eyJhbGc..." />
+
+        <label for="lessonSlug">Lesson Slug (e.g., math-7-basics):</label>
+        <input type="text" id="lessonSlug" placeholder="math-7-basics" />
+
+        <label for="markdownInput">Paste Markdown Content:</label>
+        <textarea id="markdownInput" placeholder="Paste your Georgian markdown questions here..."></textarea>
+
+        <button onclick="generateSQL()">Generate SQL</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function parseMarkdown(text) {
+            const questions = [];
+            const lines = text.split('\n');
+            let currentQuestion = null;
+            let options = [];
+            let correctAnswer = null;
+
+            for (let line of lines) {
+                line = line.trim();
+                
+                // Question line (starts with number)
+                if (/^\d+\./.test(line)) {
+                    if (currentQuestion) {
+                        questions.push({
+                            text: currentQuestion,
+                            options: options,
+                            correctAnswer: correctAnswer
+                        });
+                    }
+                    currentQuestion = line.replace(/^\d+\.\s*/, '');
+                    options = [];
+                    correctAnswer = null;
+                }
+                // Option lines
+                else if (/^[აბგდ]\)/.test(line)) {
+                    const optionText = line.substring(3).trim();
+                    options.push(optionText);
+                }
+                // Correct answer line
+                else if (line.startsWith('სწორი პასუხი:')) {
+                    const answerLetter = line.match(/[აბგდ]\)/);
+                    if (answerLetter) {
+                        const letterMap = {'ა)': 0, 'ბ)': 1, 'გ)': 2, 'დ)': 3};
+                        correctAnswer = letterMap[answerLetter[0]];
+                    }
+                }
+            }
+
+            // Add last question
+            if (currentQuestion) {
+                questions.push({
+                    text: currentQuestion,
+                    options: options,
+                    correctAnswer: correctAnswer
+                });
+            }
+
+            return questions;
+        }
+
+        function generateSQL() {
+            const lessonSlug = document.getElementById('lessonSlug').value;
+            const markdown = document.getElementById('markdownInput').value;
+            const output = document.getElementById('output');
+
+            if (!lessonSlug || !markdown) {
+                output.innerHTML = '<div class="error">❌ Please fill in all fields!</div>';
+                return;
+            }
+
+            const questions = parseMarkdown(markdown);
+
+            if (questions.length === 0) {
+                output.innerHTML = '<div class="error">❌ No questions found in markdown!</div>';
+                return;
+            }
+
+            let sql = `-- ============================================================================\n`;
+            sql += `-- AUTO-GENERATED SQL for ${lessonSlug}\n`;
+            sql += `-- Generated ${questions.length} questions\n`;
+            sql += `-- ============================================================================\n\n`;
+            sql += `DO $$\n`;
+            sql += `DECLARE\n`;
+            sql += `  v_lesson_id uuid;\n`;
+            
+            // Declare question ID variables
+            for (let i = 0; i < questions.length; i++) {
+                sql += `  v_q${i+1}_id uuid;\n`;
+            }
+
+            sql += `BEGIN\n`;
+            sql += `  -- Get lesson ID\n`;
+            sql += `  SELECT id INTO v_lesson_id FROM lessons WHERE slug = '${lessonSlug}';\n\n`;
+            sql += `  IF v_lesson_id IS NULL THEN\n`;
+            sql += `    RAISE EXCEPTION 'Lesson ${lessonSlug} not found!';\n`;
+            sql += `  END IF;\n\n`;
+
+            // Generate INSERT for each question
+            questions.forEach((q, i) => {
+                const difficulty = i < 7 ? 1 : i < 14 ? 2 : 3;
+                const qText = q.text.replace(/'/g, "''"); // Escape quotes
+
+                sql += `  -- Question ${i+1}\n`;
+                sql += `  v_q${i+1}_id := gen_random_uuid();\n`;
+                sql += `  INSERT INTO questions (id, lesson_id, type, stem_ka, difficulty_level, order_index)\n`;
+                sql += `  VALUES (v_q${i+1}_id, v_lesson_id, 'single_choice', '${qText}', ${difficulty}, ${i+1});\n\n`;
+                sql += `  INSERT INTO question_options (question_id, label_ka, is_correct, order_index) VALUES\n`;
+
+                q.options.forEach((opt, j) => {
+                    const optText = opt.replace(/'/g, "''");
+                    const isCorrect = j === q.correctAnswer;
+                    const comma = j < q.options.length - 1 ? ',' : ';';
+                    sql += `    (v_q${i+1}_id, '${optText}', ${isCorrect}, ${j+1})${comma}\n`;
+                });
+
+                sql += `\n`;
+            });
+
+            sql += `  RAISE NOTICE '✅ Imported ${questions.length} questions';\n`;
+            sql += `END $$;\n`;
+
+            const resultHTML = `
+                <div class="success">✅ Generated SQL for ${questions.length} questions!</div>
+                <div class="output">
+                    <strong>Copy this SQL and run in Supabase:</strong>
+                    <textarea id="sqlOutput" readonly style="min-height: 400px;">${sql}</textarea>
+                    <button onclick="copySQLToClipboard()">📋 Copy to Clipboard</button>
+                </div>
+            `;
+
+            output.innerHTML = resultHTML;
+        }
+
+        function copySQLToClipboard() {
+            const sqlOutput = document.getElementById('sqlOutput');
+            sqlOutput.select();
+            document.execCommand('copy');
+            alert('✅ SQL copied to clipboard! Paste it in Supabase SQL Editor.');
+        }
+    </script>
+</body>
+</html>
