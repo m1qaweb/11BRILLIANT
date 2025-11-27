@@ -120,6 +120,7 @@ export async function getUserProfile(): Promise<{
       const progressPercent = xpForNext > 0 ? (xpForCurrent / xpForNext) * 100 : 0
 
       progress = {
+        level: profile.current_level,
         xp_for_current: Math.max(0, xpForCurrent),
         xp_to_next: Math.max(0, xpToNext),
         progress_percent: Math.min(100, Math.max(0, progressPercent))
