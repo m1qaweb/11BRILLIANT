@@ -31,10 +31,6 @@ export function HeaderNav() {
     }
   }, [user])
 
-  const handleSignOut = async () => {
-    await signOutAction()
-  }
-
   return (
     <header
       className={cn(
@@ -185,17 +181,19 @@ export function HeaderNav() {
                       </div>
 
                       <div className="border-t border-white/10 mt-2 pt-2 p-2">
-                        <button
-                          onClick={handleSignOut}
-                          className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all duration-200 group georgian-body"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center group-hover:bg-red-500/30 transition-colors">
-                            <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                          </div>
-                          გასვლა
-                        </button>
+                        <form action={signOutAction}>
+                          <button
+                            type="submit"
+                            className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all duration-200 group georgian-body"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center group-hover:bg-red-500/30 transition-colors">
+                              <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                              </svg>
+                            </div>
+                            გასვლა
+                          </button>
+                        </form>
                       </div>
                     </div>
                   </>

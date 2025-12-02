@@ -37,7 +37,7 @@ export async function signInAction(formData: FormData) {
     if (error.message.includes('Invalid') || error.message.includes('credentials')) {
       redirect(buildUrl('/auth/login', { error: 'არასწორი ელ. ფოსტა ან პაროლი' }))
     }
-    
+
     redirect(buildUrl('/auth/login', { error: error.message }))
   }
 
@@ -69,7 +69,7 @@ export async function signUpAction(formData: FormData) {
   }
 
   const supabase = await createClient()
-  
+
   // Sign up user
   const { data: authData, error: signUpError } = await supabase.auth.signUp({
     email,
@@ -83,20 +83,20 @@ export async function signUpAction(formData: FormData) {
 
   if (signUpError) {
     console.error('Signup error:', signUpError)
-    
+
     // Handle specific Supabase errors with Georgian messages
-    if (signUpError.message.includes('already registered') || 
-        signUpError.message.includes('already exists') ||
-        signUpError.message.includes('User already registered') ||
-        signUpError.status === 422) {
+    if (signUpError.message.includes('already registered') ||
+      signUpError.message.includes('already exists') ||
+      signUpError.message.includes('User already registered') ||
+      signUpError.status === 422) {
       redirect(buildUrl('/auth/signup', { error: 'ეს ელ.ფოსტა უკვე არსებობს' }))
     }
-    
+
     // Handle weak password
     if (signUpError.message.includes('Password') || signUpError.message.includes('weak')) {
       redirect(buildUrl('/auth/signup', { error: 'პაროლი ძალიან სუსტია' }))
     }
-    
+
     redirect(buildUrl('/auth/signup', { error: signUpError.message }))
   }
 
@@ -114,15 +114,9 @@ export async function signUpAction(formData: FormData) {
   //   3. user_profiles entry (gamification)
 
   revalidatePath('/', 'layout')
-  
-  // Check if email confirmation is required
-  if (authData.session) {
-    // User is logged in, redirect to returnUrl or dashboard
-    redirect(returnUrl || '/dashboard')
-  } else {
-    // Email confirmation required
-    redirect(buildUrl('/auth/verify-email', { success: 'ანგარიში შეიქმნა' }))
-  }
+
+  // Redirect to dashboard - email confirmation is disabled
+  redirect(returnUrl || '/dashboard')
 }
 
 /**
@@ -131,7 +125,7 @@ export async function signUpAction(formData: FormData) {
 export async function signOutAction() {
   const supabase = await createClient()
   await supabase.auth.signOut()
-  
+
   revalidatePath('/', 'layout')
   redirect('/')
 }

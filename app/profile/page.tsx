@@ -47,14 +47,11 @@ export default async function ProfilePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="mb-12 animate-slide-up">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 font-bold text-sm mb-4 backdrop-blur-sm">
-            🚀 კოსმოსური კაპიტანი
-          </div>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-3 georgian-heading tracking-tight text-glow">
             ჩემი პროფილი
           </h1>
           <p className="text-xl text-blue-200/60 georgian-body font-medium">
-            შენი პროგრესი და მიღწევები გალაქტიკაში 🌌
+            შენი პროგრესი და მიღწევები
           </p>
         </div>
 

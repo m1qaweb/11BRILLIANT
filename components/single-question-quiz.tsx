@@ -149,20 +149,18 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
     const accuracy = Math.round((answeredQuestions.size / totalQuestions) * 100)
 
     return (
-      <div className="w-full max-w-2xl mx-auto animate-slide-up">
-        <div className="glass-panel p-12 text-center rounded-3xl relative overflow-hidden">
+      <div className="min-h-[60vh] flex items-center justify-center w-full animate-slide-up">
+        <div className="w-full max-w-2xl mx-auto glass-panel p-12 text-center rounded-3xl relative overflow-hidden">
           {/* Background Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-500/10 to-purple-500/10 pointer-events-none"></div>
 
-          {/* Celebration Animation */}
-          <div className="mb-8 relative z-10">
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 shadow-[0_0_30px_rgba(251,191,36,0.4)] mb-4 animate-bounce">
-              <span className="text-5xl">🎉</span>
-            </div>
+          {/* Celebration Icon - Static */}
+          <div className="mb-6 relative z-10">
+            <span className="text-6xl">🎉</span>
           </div>
 
           {/* Congratulations Message */}
-          <h2 className="text-4xl md:text-5xl font-black mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 georgian-heading text-glow relative z-10">
+          <h2 className="text-4xl md:text-5xl font-black mb-3 py-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 georgian-heading text-glow relative z-10">
             გილოცავ!
           </h2>
           <p className="text-lg text-blue-200/60 mb-10 georgian-body max-w-md mx-auto relative z-10">
@@ -195,13 +193,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
             </button>
           </div>
 
-          {/* Encouragement Badge */}
-          {accuracy >= 80 && (
-            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full relative z-10">
-              <span className="text-xl">⭐</span>
-              <span className="font-bold text-yellow-300 georgian-body">შესანიშნავი შედეგი!</span>
-            </div>
-          )}
+
         </div>
       </div>
     )
@@ -220,6 +212,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
               progress={progress}
               compact={true}
               showDetails={false}
+              lastXPGain={lastXPGain}
             />
           </div>
 
@@ -233,7 +226,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
               <motion.div
                 className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 shadow-[0_0_20px_rgba(234,88,12,0.5)]"
                 animate={{
-                  boxShadow: currentStreak > 0
+                  boxShadow: totalCorrectStreak > 0
                     ? [
                       '0 0 20px rgba(234,88,12,0.5)',
                       '0 0 30px rgba(234,88,12,0.8)',
@@ -249,7 +242,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
               </motion.div>
 
               {/* Enhanced Flame particles */}
-              {currentStreak > 0 && (
+              {totalCorrectStreak > 0 && (
                 <>
                   {/* Large orange flame */}
                   <motion.div
@@ -320,7 +313,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 style={{ backgroundSize: '200% 100%' }}
               >
-                {currentStreak}
+                {totalCorrectStreak}
               </motion.div>
             </div>
 
@@ -333,7 +326,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                   className="px-4 py-2 rounded-xl relative z-10"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-xl">⚡</span>
                     <span className="text-sm font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                       {totalCorrectStreak} სწორი ზედიზედ!
                     </span>
@@ -345,22 +337,8 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         </div>
       )}
 
-      {/* XP Gain Animation */}
-      <AnimatePresence>
-        {lastXPGain && (
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.8 }}
-            className="fixed top-24 right-8 z-50 px-6 py-3 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 shadow-[0_0_30px_rgba(250,204,21,0.4)] border border-yellow-300/50 backdrop-blur-md"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">✨</span>
-              <span className="text-xl font-black text-white">+{lastXPGain} XP</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* XP Gain Animation - Improved Dark Blue Design */}
+
 
       {/* Level Up Modal */}
       {

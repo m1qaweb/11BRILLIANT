@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { UserProfile, LevelProgress, Level } from '@/lib/types/gamification'
 
@@ -11,9 +11,10 @@ interface XPBarProps {
   progress: LevelProgress | null
   compact?: boolean
   showDetails?: boolean
+  lastXPGain?: number | null
 }
 
-export function XPBar({ profile, levelInfo, progress, compact = false, showDetails = true }: XPBarProps) {
+export function XPBar({ profile, levelInfo, progress, compact = false, showDetails = true, lastXPGain }: XPBarProps) {
   const [displayXP, setDisplayXP] = useState(0)
   const progressPercent = progress?.progress_percent || 0
 
@@ -39,14 +40,14 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
+      <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative overflow-hidden">
         {/* Level Badge */}
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)] relative z-10">
           <span className="text-white font-black text-lg">{profile.current_level}</span>
         </div>
 
         {/* Progress Bar */}
-        <div className="flex-1 min-w-[100px]">
+        <div className="flex-1 min-w-[100px] relative z-10">
           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
@@ -57,10 +58,26 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
               <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
             </motion.div>
           </div>
+
+          {/* Inline XP Gain Animation */}
+          <AnimatePresence>
+            {lastXPGain && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-3 left-0 right-0 text-center"
+              >
+                <span className="text-xs font-bold text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+                  +{lastXPGain} XP
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* XP Count */}
-        <div className="text-sm font-bold text-blue-200 whitespace-nowrap">
+        <div className="text-sm font-bold text-blue-200 whitespace-nowrap relative z-10">
           {displayXP.toLocaleString()} XP
         </div>
       </div>
