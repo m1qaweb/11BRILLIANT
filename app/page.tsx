@@ -87,7 +87,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-blue-900/20 to-[#0f172a]"></div>
 
         <div className="container mx-auto relative z-10">
-          <div className="glass-card p-12 md:p-20 text-center relative overflow-hidden shadow-2xl border border-white/10 bg-white/5 backdrop-blur-xl rounded-[3rem]">
+          <div className="glass-card p-6 sm:p-12 md:p-20 text-center relative overflow-hidden shadow-2xl border border-white/10 bg-white/5 backdrop-blur-xl rounded-[2rem] md:rounded-[3rem]">
             {/* Animated background elements */}
             <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-10"></div>
             <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-amber-500/20 to-orange-600/20 rounded-full blur-[100px] animate-float"></div>
@@ -97,13 +97,13 @@ export default function HomePage() {
               <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white font-bold text-sm mb-6 border border-white/20 backdrop-blur-md">
                 🚀 დაიწყე დღესვე
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white georgian-heading text-glow">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 text-white georgian-heading text-glow">
                 მზად ხარ განვითარებისთვის?
               </h2>
-              <p className="text-xl md:text-2xl mb-12 text-blue-200/70 leading-relaxed max-w-2xl mx-auto georgian-body">
+              <p className="text-lg md:text-2xl mb-8 md:mb-12 text-blue-200/70 leading-relaxed max-w-2xl mx-auto georgian-body">
                 შემოუერთდი ათასობით მოსწავლეს და დაეუფლე რთულ საკითხებს მარტივად და სახალისოდ.
               </p>
-              <Link href="/subjects" className="bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xl px-14 py-5 inline-block shadow-[0_0_30px_rgba(245,158,11,0.4)] hover:shadow-[0_0_50px_rgba(245,158,11,0.6)] group rounded-2xl font-bold transition-all hover:scale-105 border border-white/20">
+              <Link href="/subjects" className="bg-gradient-to-r from-amber-500 to-orange-600 text-white text-lg md:text-xl px-8 py-4 md:px-14 md:py-5 inline-block shadow-[0_0_30px_rgba(245,158,11,0.4)] hover:shadow-[0_0_50px_rgba(245,158,11,0.6)] group rounded-2xl font-bold transition-all hover:scale-105 border border-white/20">
                 <span className="flex items-center gap-3">
                   ნახე საგნები
                   <svg className="w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

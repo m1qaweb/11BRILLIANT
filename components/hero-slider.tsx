@@ -135,7 +135,7 @@ export function HeroSlider() {
       </div>
 
       {/* Content Container */}
-      <div className="container mx-auto px-4 relative z-10 py-20">
+      <div className="container mx-auto px-12 md:px-4 relative z-10 py-20">
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
           <div
@@ -148,7 +148,7 @@ export function HeroSlider() {
           {/* Main Heading */}
           <h1
             key={`title-${slide.id}`}
-            className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-[1.1] animate-slide-up georgian-heading text-white drop-shadow-lg"
+            className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tight leading-[1.1] animate-slide-up georgian-heading text-white drop-shadow-lg"
             style={{ animationDelay: '0.1s' }}
           >
             {slide.title} <br className="hidden md:block" />
@@ -165,7 +165,7 @@ export function HeroSlider() {
           {/* Subtitle */}
           <p
             key={`desc-${slide.id}`}
-            className="text-lg md:text-xl lg:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed georgian-body animate-fade-in font-medium"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed georgian-body animate-fade-in font-medium"
             style={{ animationDelay: '0.2s' }}
           >
             {slide.description}
@@ -206,7 +206,7 @@ export function HeroSlider() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition-all duration-300 flex items-center justify-center group shadow-xl"
+        className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition-all duration-300 flex items-center justify-center group shadow-xl"
         aria-label="Previous slide"
       >
         <svg className="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -216,7 +216,7 @@ export function HeroSlider() {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition-all duration-300 flex items-center justify-center group shadow-xl"
+        className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition-all duration-300 flex items-center justify-center group shadow-xl"
         aria-label="Next slide"
       >
         <svg className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -253,7 +253,7 @@ export function HeroSlider() {
 
       {/* Social Proof / Trust Badges */}
       <div
-        className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 hover:opacity-90 transition-all duration-500 animate-fade-in z-10"
+        className="hidden lg:flex absolute bottom-20 left-1/2 -translate-x-1/2 flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 hover:opacity-90 transition-all duration-500 animate-fade-in z-10"
         style={{ animationDelay: '0.6s' }}
       >
         <div className="font-bold text-base md:text-lg tracking-wide text-white">🏆 თანამედროვე სწავლება</div>
