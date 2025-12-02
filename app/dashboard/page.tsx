@@ -95,13 +95,7 @@ export default async function DashboardPage() {
                 <div className="absolute inset-0 border-2 border-primary/30 rounded-full scale-125 animate-spin-slow border-t-transparent"></div>
               </div>
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs mb-2 backdrop-blur-sm">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                  </span>
-                  ონლაინ რეჟიმი
-                </div>
+
                 <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight georgian-heading mb-2">
                   გამარჯობა, <span className="text-gradient-cosmic">{profile?.display_name || user.email?.split('@')[0]}</span>
                 </h1>
@@ -242,9 +236,7 @@ export default async function DashboardPage() {
           {/* Recent Activity */}
           <div className="glass-panel p-8 rounded-3xl border border-white/5">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl shadow-lg">
-                ⌚
-              </div>
+
               <h2 className="text-2xl font-black text-white georgian-heading">ბოლო აქტივობა</h2>
             </div>
 

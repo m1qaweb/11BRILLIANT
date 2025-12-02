@@ -168,7 +168,7 @@ export default async function ProfilePage() {
                   <div className="flex items-center justify-between mb-6 relative z-10">
                     <h3 className="text-xl font-bold text-white georgian-heading capitalize flex items-center gap-2">
                       {category === 'achievement' && '🏆 მიღწევები'}
-                      {category === 'streak' && '🔥 ქართი'}
+                      {category === 'streak' && '🔥 სტრიქი'}
                       {category === 'mastery' && '⭐ ოსტატობა'}
                       {category === 'special' && '✨ სპეციალური'}
                     </h3>
@@ -225,7 +225,7 @@ export default async function ProfilePage() {
                       <div className="font-bold text-white georgian-body text-lg">
                         {transaction.reason === 'correct_answer' && 'სწორი პასუხი'}
                         {transaction.reason === 'lesson_complete' && 'გაკვეთილის დასრულება'}
-                        {transaction.reason === 'streak' && 'ქართი'}
+                        {transaction.reason === 'streak' && 'სტრიქი'}
                         {transaction.reason === 'badge_earned' && 'ბეჯის მიღება'}
                       </div>
                       <div className="text-sm text-blue-200/50 font-medium">
