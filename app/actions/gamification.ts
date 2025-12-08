@@ -3,9 +3,12 @@
 import { createClient } from '@/lib/supabase/server'
 import type { XPAwardResult, UserProfile, Badge, UserBadge, Level, LevelProgress } from '@/lib/types/gamification'
 
-/**
- * Award XP to a user
- */
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>
+
+async function getSupabase(): Promise<SupabaseClient> {
+  return await createClient() as any
+}
+
 export async function awardXP(params: {
   amount: number
   reason: string
@@ -13,14 +16,12 @@ export async function awardXP(params: {
   referenceType?: string
 }): Promise<XPAwardResult | null> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase()
 
-    // Get current user
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return null
 
-    // Call the award_xp database function
-    const { data, error } = await supabase.rpc('award_xp', {
+    const { data, error } = await (supabase as any).rpc('award_xp', {
       p_user_id: user.id,
       p_amount: params.amount,
       p_reason: params.reason,
@@ -33,8 +34,8 @@ export async function awardXP(params: {
       return null
     }
 
-    if (data && data.length > 0) {
-      const result = data[0]
+    if (data && Array.isArray(data) && data.length > 0) {
+      const result = data[0] as any
       return {
         new_total_xp: result.new_total_xp,
         new_level: result.new_level,
@@ -51,21 +52,17 @@ export async function awardXP(params: {
   }
 }
 
-/**
- * Get user's gamification profile
- */
 export async function getUserProfile(): Promise<{
   profile: UserProfile | null
   levelInfo: Level | null
   progress: LevelProgress | null
 }> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { profile: null, levelInfo: null, progress: null }
 
-    // Get or create profile
     let { data: profile, error } = await supabase
       .from('user_profiles')
       .select('*')
@@ -73,7 +70,6 @@ export async function getUserProfile(): Promise<{
       .single()
 
     if (error || !profile) {
-      // Create profile if doesn't exist
       const { data: newProfile } = await supabase
         .from('user_profiles')
         .insert({ id: user.id, total_xp: 0, current_level: 1 })
@@ -90,21 +86,18 @@ export async function getUserProfile(): Promise<{
       }
     }
 
-    // Get level info
     const { data: levelInfo } = await supabase
       .from('levels')
       .select('*')
       .eq('level', profile.current_level)
       .single()
 
-    // Calculate progress
     const { data: progressData } = await supabase.rpc('calculate_level', {
       total_xp: profile.total_xp
     })
 
-    let progress: LevelProgress | null = progressData && progressData.length > 0 ? progressData[0] : null
+    let progress: LevelProgress | null = progressData && Array.isArray(progressData) && progressData.length > 0 ? progressData[0] : null
 
-    // Fallback: Calculate progress manually if RPC fails
     if (!progress && levelInfo) {
       const currentLevelXP = levelInfo.xp_required || 0
       const nextLevelData = await supabase
@@ -125,8 +118,6 @@ export async function getUserProfile(): Promise<{
         xp_to_next: Math.max(0, xpToNext),
         progress_percent: Math.min(100, Math.max(0, progressPercent))
       }
-
-      console.log('Used fallback progress calculation:', progress)
     }
 
     return { profile, levelInfo, progress }
@@ -136,12 +127,9 @@ export async function getUserProfile(): Promise<{
   }
 }
 
-/**
- * Get all badges
- */
 export async function getAllBadges(): Promise<Badge[]> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data, error } = await supabase
       .from('badges')
@@ -161,12 +149,9 @@ export async function getAllBadges(): Promise<Badge[]> {
   }
 }
 
-/**
- * Get user's earned badges
- */
 export async function getUserBadges(): Promise<UserBadge[]> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return []
@@ -192,12 +177,9 @@ export async function getUserBadges(): Promise<UserBadge[]> {
   }
 }
 
-/**
- * Award a badge to user
- */
 export async function awardBadge(badgeCode: string): Promise<UserBadge | null> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return null
@@ -248,12 +230,9 @@ export async function awardBadge(badgeCode: string): Promise<UserBadge | null> {
   }
 }
 
-/**
- * Get XP transaction history
- */
 export async function getXPHistory(limit: number = 20) {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return []
@@ -277,12 +256,9 @@ export async function getXPHistory(limit: number = 20) {
   }
 }
 
-/**
- * Get all levels
- */
 export async function getAllLevels(): Promise<Level[]> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data, error } = await supabase
       .from('levels')
@@ -301,12 +277,9 @@ export async function getAllLevels(): Promise<Level[]> {
   }
 }
 
-/**
- * Get user's current streak
- */
 export async function getUserStreak(): Promise<number> {
   try {
-    const supabase = await createClient()
+    const supabase = await getSupabase() as any
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return 0

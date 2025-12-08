@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
  * Returns null if not authenticated
  */
 export async function getCurrentUser() {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   
   const {
     data: { user },
@@ -40,7 +40,7 @@ export async function requireAuth() {
  * Called after signup to ensure profile exists
  */
 export async function getOrCreateProfile(userId: string) {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   
   // Check if profile exists
   const { data: existingProfile, error: fetchError } = await supabase
@@ -85,7 +85,7 @@ export async function isAuthenticated() {
  * Get user profile with full details
  */
 export async function getUserProfile(userId: string) {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   
   const { data: profile, error } = await supabase
     .from('profiles')

@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 export default async function ProfilePage() {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -212,7 +212,7 @@ export default async function ProfilePage() {
             </h2>
 
             <div className="space-y-3">
-              {xpHistory.map((transaction) => (
+              {xpHistory.map((transaction: any) => (
                 <div
                   key={transaction.id}
                   className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors group"

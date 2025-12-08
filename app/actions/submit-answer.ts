@@ -42,9 +42,8 @@ export async function submitAnswer(
   const { questionId, lessonId, submittedAnswer, attemptNumber } = JSON.parse(JSON.stringify(input))
 
   try {
-    const supabase = await createClient()
+    const supabase = await createClient() as any
 
-    // Get authenticated user (optional - allow guest mode)
     let user
     try {
       user = await getCurrentUser()
@@ -224,7 +223,7 @@ async function awardXP(
   amount: number,
   reason: string,
   referenceId: string,
-  supabase: Awaited<ReturnType<typeof createClient>>
+  supabase: any
 ): Promise<void> {
   try {
     // Get or create user profile
@@ -270,7 +269,7 @@ async function awardXP(
 async function checkAndUpdateLessonProgress(
   userId: string,
   lessonId: string,
-  supabase: Awaited<ReturnType<typeof createClient>>
+  supabase: any
 ): Promise<boolean> {
   try {
     // CRITICAL FIX: Check if lesson already completed to prevent duplicate bonuses
@@ -302,7 +301,7 @@ async function checkAndUpdateLessonProgress(
       .from('question_attempts')
       .select('question_id')
       .eq('user_id', userId)
-      .in('question_id', questions.map(q => q.id))
+      .in('question_id', questions.map((q: any) => q.id))
       .eq('is_correct', true)
 
     if (!correctAttempts) {
@@ -311,11 +310,11 @@ async function checkAndUpdateLessonProgress(
 
     // Get unique questions answered correctly
     const uniqueCorrectQuestions = new Set(
-      correctAttempts.map(a => a.question_id)
+      correctAttempts.map((a: any) => a.question_id)
     )
 
     // Check if all questions answered correctly
-    const allQuestionsCorrect = questions.every(q =>
+    const allQuestionsCorrect = questions.every((q: any) =>
       uniqueCorrectQuestions.has(q.id)
     )
 
@@ -352,7 +351,7 @@ async function checkAndUpdateLessonProgress(
  */
 async function updateStreak(
   userId: string,
-  supabase: Awaited<ReturnType<typeof createClient>>
+  supabase: any
 ): Promise<void> {
   try {
     const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD

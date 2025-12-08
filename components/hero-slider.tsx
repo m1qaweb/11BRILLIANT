@@ -29,13 +29,13 @@ export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
-  // Auto-play functionality
+  
   useEffect(() => {
     if (!isAutoPlaying) return
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 5000) // Change slide every 5 seconds
+    }, 5000) 
 
     return () => clearInterval(interval)
   }, [isAutoPlaying])
@@ -84,7 +84,6 @@ export function HeroSlider() {
             className="object-cover w-full h-full"
             priority={index === 0}
           />
-          {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
         </div>
       ))}

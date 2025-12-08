@@ -28,7 +28,7 @@ interface SubjectPageProps {
 
 export async function generateMetadata({ params }: SubjectPageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { data: subject } = await supabase
     .from('subjects')
     .select('name_ka, name_en')
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: SubjectPageProps) {
 
 export default async function SubjectDetailPage({ params }: SubjectPageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
 
   // Fetch subject
   const { data: subject, error: subjectError } = await supabase
@@ -67,7 +67,7 @@ export default async function SubjectDetailPage({ params }: SubjectPageProps) {
     console.error('Error fetching courses:', coursesError)
   }
 
-  const courseIds = (coursesData || []).map(c => c.id)
+  const courseIds = (coursesData || []).map((c: any) => c.id)
 
   // Only fetch lessons if we have course IDs
   let lessonsData = null

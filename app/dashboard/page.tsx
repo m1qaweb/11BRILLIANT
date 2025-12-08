@@ -9,7 +9,7 @@ export const metadata = {
 
 export default async function DashboardPage() {
   const user = await requireAuth()
-  const supabase = await createClient()
+  const supabase = await createClient() as any
 
   // Fetch user profile
   const profile = await getUserProfile(user.id)
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
     .eq('status', 'completed')
 
   // Find in-progress lesson (most recently viewed, not completed)
-  const inProgressLesson = lessonProgress?.find(lp => lp.status !== 'completed')
+  const inProgressLesson = lessonProgress?.find((lp: any) => lp.status !== 'completed')
 
   return (
     <div className="bg-cosmic-main">

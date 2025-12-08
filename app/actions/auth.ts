@@ -26,7 +26,7 @@ export async function signInAction(formData: FormData) {
     redirect(buildUrl('/auth/login', { error: 'ელ. ფოსტა და პაროლი აუცილებელია' }))
   }
 
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -68,7 +68,7 @@ export async function signUpAction(formData: FormData) {
     redirect(buildUrl('/auth/signup', { error: 'ელ. ფოსტა და პაროლი აუცილებელია' }))
   }
 
-  const supabase = await createClient()
+  const supabase = await createClient() as any
 
   // Sign up user
   const { data: authData, error: signUpError } = await supabase.auth.signUp({
@@ -123,7 +123,7 @@ export async function signUpAction(formData: FormData) {
  * Server Action: Sign out
  */
 export async function signOutAction() {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   await supabase.auth.signOut()
 
   revalidatePath('/', 'layout')
@@ -140,7 +140,7 @@ export async function resetPasswordAction(formData: FormData) {
     redirect('/auth/forgot-password?error=Email is required')
   }
 
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password`,
   })
@@ -171,7 +171,7 @@ export async function updatePasswordAction(formData: FormData) {
     return { error: 'Password must be at least 6 characters' }
   }
 
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { error } = await supabase.auth.updateUser({
     password: newPassword,
   })

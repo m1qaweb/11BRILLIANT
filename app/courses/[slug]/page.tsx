@@ -36,7 +36,7 @@ interface CoursePageProps {
 
 export async function generateMetadata({ params }: CoursePageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { data: course } = await supabase
     .from('courses')
     .select('title_ka, description_ka')
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: CoursePageProps) {
 
 export default async function CourseDetailPage({ params }: CoursePageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
 
   // Fetch course with subject info
   const { data: course, error: courseError } = await supabase

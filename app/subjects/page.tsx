@@ -63,7 +63,7 @@ const GRADE_LABELS: Record<string, string> = {
 }
 
 export default async function SubjectsPage({ searchParams }: SubjectsPageProps) {
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const resolvedParams = await searchParams
   const selectedGrade = resolvedParams.grade || '7' // Default to grade 7
   const gradeLabel = GRADE_LABELS[selectedGrade] || 'VII კლასი'
@@ -110,7 +110,7 @@ export default async function SubjectsPage({ searchParams }: SubjectsPageProps) 
 
         {/* Subjects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
-          {displaySubjects.map((subject, index) => {
+          {displaySubjects.map((subject: any, index: number) => {
             const gradientColor = SUBJECT_COLORS[subject.code] || 'from-blue-500 to-purple-500'
 
             return (

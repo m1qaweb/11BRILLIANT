@@ -13,7 +13,7 @@ export const metadata = {
 }
 
 export default async function CoursesPage() {
-    const supabase = await createClient()
+    const supabase = await createClient() as any
 
     const { data: courses, error } = await supabase
         .from('courses')
@@ -56,7 +56,7 @@ export default async function CoursesPage() {
                         </div>
                     ) : (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {courses.map((course, index) => (
+                            {courses.map((course: any, index: number) => (
                                 <Link
                                     key={course.id}
                                     href={`/courses/${course.slug}`}

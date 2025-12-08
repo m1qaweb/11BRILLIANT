@@ -56,7 +56,7 @@ interface LessonPageProps {
 
 export async function generateMetadata({ params }: LessonPageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
   const { data: lesson } = await supabase
     .from('lessons')
     .select('title_ka, summary_ka')
@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: LessonPageProps) {
 
 export default async function LessonPage({ params }: LessonPageProps) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = await createClient() as any
 
   const { data: lesson, error: lessonError } = await supabase
     .from('lessons')
@@ -102,7 +102,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     console.error('Error fetching questions:', questionsError)
   }
 
-  const questionIds = (questionsData || []).map(q => q.id)
+  const questionIds = (questionsData || []).map((q: any) => q.id)
   const { data: optionsData, error: optionsError } = await supabase
     .from('question_options')
     .select('*')
@@ -113,7 +113,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     console.error('Error fetching options:', optionsError)
   }
 
-  const optionsByQuestion = (optionsData || []).reduce((acc, option) => {
+  const optionsByQuestion = (optionsData || []).reduce((acc: any, option: any) => {
     if (!acc[option.question_id]) {
       acc[option.question_id] = []
     }
@@ -121,7 +121,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     return acc
   }, {} as Record<string, QuestionOption[]>)
 
-  const questions = (questionsData || []).map(q => ({
+  const questions = (questionsData || []).map((q: any) => ({
     ...q,
     options: (optionsByQuestion[q.id] || []).sort((a: QuestionOption, b: QuestionOption) => a.order_index - b.order_index)
   })) as unknown as Question[]
@@ -132,7 +132,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     .eq('course_id', lesson.course_id)
     .order('order_index')
 
-  const currentIndex = allLessons?.findIndex(l => l.id === lesson.id) ?? -1
+  const currentIndex = allLessons?.findIndex((l: any) => l.id === lesson.id) ?? -1
   const prevLesson = currentIndex > 0 ? allLessons?.[currentIndex - 1] : null
   const nextLesson = currentIndex >= 0 && allLessons ? allLessons[currentIndex + 1] : null
 
