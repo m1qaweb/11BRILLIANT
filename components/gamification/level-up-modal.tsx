@@ -15,7 +15,6 @@ interface LevelUpModalProps {
   totalXP: number
 }
 
-// Confetti particle component
 function Confetti({ index }: { index: number }) {
   const colors = ['#FEF3C7', '#FDE68A', '#FCD34D', '#FBBF24', '#F59E0B', '#D97706', '#B45309']
   const randomColor = colors[index % colors.length]
@@ -56,7 +55,6 @@ function Confetti({ index }: { index: number }) {
   )
 }
 
-// Star burst particle component 
 function StarBurst({ index }: { index: number }) {
   const angle = (index / 12) * Math.PI * 2
   const distance = 150 + Math.random() * 50
@@ -105,7 +103,6 @@ export function LevelUpModal({
       setShowConfetti(true)
       setDisplayLevel(oldLevel)
 
-      // Animate level number counting up
       const duration = 800
       const steps = Math.abs(newLevel - oldLevel)
       const stepDuration = duration / steps
@@ -120,9 +117,6 @@ export function LevelUpModal({
         }
       }, stepDuration)
 
-      // Play celebration sound (optional)
-      // new Audio('/sounds/levelup.mp3').play().catch(() => {})
-
       const timer = setTimeout(() => setShowConfetti(false), 3500)
       return () => {
         clearTimeout(timer)
@@ -135,7 +129,6 @@ export function LevelUpModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -144,7 +137,6 @@ export function LevelUpModal({
             className="fixed inset-0 bg-black/70 backdrop-blur-md z-50"
           />
 
-          {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
               initial={{ scale: 0.3, opacity: 0, y: 100, rotateX: -90 }}
@@ -164,14 +156,11 @@ export function LevelUpModal({
               className="relative w-full max-w-lg pointer-events-auto"
               style={{ perspective: '1000px' }}
             >
-              {/* Glow effect behind modal */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-3xl blur-3xl opacity-60 animate-pulse" />
 
               <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl shadow-2xl overflow-hidden">
-                {/* Animated gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-purple-900/20 animate-gradient-shift" />
 
-                {/* Star bursts */}
                 {showConfetti && (
                   <div className="absolute left-1/2 top-1/2 pointer-events-none">
                     {[...Array(12)].map((_, i) => (
@@ -180,7 +169,6 @@ export function LevelUpModal({
                   </div>
                 )}
 
-                {/* Confetti particles */}
                 {showConfetti && (
                   <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     {[...Array(40)].map((_, i) => (
@@ -189,7 +177,6 @@ export function LevelUpModal({
                   </div>
                 )}
 
-                {/* Floating orbs */}
                 {showConfetti && (
                   <>
                     <motion.div
@@ -224,7 +211,6 @@ export function LevelUpModal({
                   </>
                 )}
 
-                {/* Close Button */}
                 <button
                   onClick={onClose}
                   className="absolute top-6 right-6 p-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all hover:scale-110 z-10"
@@ -232,9 +218,7 @@ export function LevelUpModal({
                   <X className="w-5 h-5 text-white" />
                 </button>
 
-                {/* Content */}
                 <div className="relative p-8 sm:p-12 text-center">
-                  {/* Trophy Icon with pulse */}
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{
@@ -265,7 +249,6 @@ export function LevelUpModal({
                     <Zap className="w-5 h-5 text-white absolute -top-1 -right-1 animate-bounce" />
                   </motion.div>
 
-                  {/* Title with text shimmer */}
                   <motion.h2
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -289,7 +272,6 @@ export function LevelUpModal({
                     </span>
                   </motion.h2>
 
-                  {/* Level Change with animated counter */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -352,7 +334,6 @@ export function LevelUpModal({
                     </div>
                   </motion.div>
 
-                  {/* Level Title with glow */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -378,7 +359,6 @@ export function LevelUpModal({
                     </div>
                   </motion.div>
 
-                  {/* Stats */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -423,7 +403,6 @@ export function LevelUpModal({
                     </div>
                   </motion.div>
 
-                  {/* Continue Button */}
                   <motion.button
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -450,7 +429,6 @@ export function LevelUpModal({
                     </span>
                   </motion.button>
 
-                  {/* Motivational Text */}
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

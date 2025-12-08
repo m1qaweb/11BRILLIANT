@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { HeaderNav } from './header-nav'
+import { Logo } from './logo'
 import { cn } from '@/lib/utils'
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
@@ -29,12 +30,11 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-primary font-bold text-lg">გ</div>
-                <span className="font-bold text-xl tracking-tight">გონი</span>
+              <div className="mb-4">
+                <Logo size="sm" showText={true} href="/" />
               </div>
               <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-xs">
-                ინტერაქტიული სწავლა თანამედროვე ეპოქისთვის. დაეუფლე კონცეფციებს, არა მხოლოდ დაიზეპირო.
+                ინტერაქტიული სწავლა თანამედროვე ეპოქისთვის. დაეუფლე კონცეფციებს და აიმაღლე დონეები
               </p>
             </div>
 
@@ -67,7 +67,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="pt-8 border-t border-primary-foreground/10 text-center text-sm text-primary-foreground/50 flex flex-col md:flex-row justify-between items-center gap-4">
-            <span>© {new Date().getFullYear()} გონი. ყველა უფლება დაცულია.</span>
+            <span suppressHydrationWarning>© 2025 გონი. ყველა უფლება დაცულია.</span>
             <div className="flex gap-6">
               <a href="#" className="hover:text-accent transition-colors">ტვიტერი</a>
               <a href="#" className="hover:text-accent transition-colors">გითჰაბი</a>

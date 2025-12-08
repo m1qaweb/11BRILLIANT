@@ -38,7 +38,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set())
   const [quizCompleted, setQuizCompleted] = useState(false)
 
-  // Gamification state
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [levelInfo, setLevelInfo] = useState<Level | null>(null)
   const [progress, setProgress] = useState<LevelProgress | null>(null)
@@ -49,7 +48,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
   const [lastXPGain, setLastXPGain] = useState<number | null>(null)
   const [showStreakMessage, setShowStreakMessage] = useState(false)
 
-  // Load user profile on mount
   useEffect(() => {
     loadUserProfile()
     loadStreak()
@@ -76,11 +74,9 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
     }
   }
 
-  // Refresh profile after XP award
   async function refreshProfile(xpGained?: number) {
     const { profile, levelInfo: level, progress: prog } = await getUserProfile()
 
-    // Check for level up
     if (userProfile && profile && profile.current_level > userProfile.current_level) {
       setLevelUpData({ oldLevel: userProfile.current_level, newLevel: profile.current_level })
       setShowLevelUpModal(true)
@@ -102,22 +98,14 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
 
   const handleQuestionAnswered = (isCorrect: boolean, xpGained?: number) => {
     if (isCorrect) {
-      // Mark question as answered
       setAnsweredQuestions(prev => new Set(prev).add(currentQuestionIndex))
-
-      // Update streak
       setTotalCorrectStreak(prev => prev + 1)
-
-      // Show streak message transiently
       setShowStreakMessage(true)
       setTimeout(() => setShowStreakMessage(false), 1500)
-
-      // Refresh profile to show new XP
       if (xpGained) {
         refreshProfile(xpGained)
       }
     } else {
-      // Reset streak on incorrect answer
       setTotalCorrectStreak(0)
       setShowStreakMessage(false)
     }
@@ -149,45 +137,40 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
     const accuracy = Math.round((answeredQuestions.size / totalQuestions) * 100)
 
     return (
-      <div className="min-h-[60vh] flex items-center justify-center w-full animate-slide-up">
-        <div className="w-full max-w-2xl mx-auto glass-panel p-12 text-center rounded-3xl relative overflow-hidden">
-          {/* Background Glow */}
+      <div className="min-h-[60vh] flex items-center justify-center w-full animate-slide-up px-4">
+        <div className="w-full max-w-2xl mx-auto glass-panel p-6 sm:p-8 md:p-12 text-center rounded-2xl sm:rounded-3xl relative overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-500/10 to-purple-500/10 pointer-events-none"></div>
 
-          {/* Celebration Icon - Static */}
           <div className="mb-6 relative z-10">
             <span className="text-6xl">🎉</span>
           </div>
 
-          {/* Congratulations Message */}
-          <h2 className="text-4xl md:text-5xl font-black mb-3 py-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 georgian-heading text-glow relative z-10">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 py-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 georgian-heading text-glow relative z-10">
             გილოცავ!
           </h2>
-          <p className="text-lg text-blue-200/60 mb-10 georgian-body max-w-md mx-auto relative z-10">
+          <p className="text-base sm:text-lg text-blue-200/60 mb-6 sm:mb-10 georgian-body max-w-md mx-auto relative z-10 px-2">
             წარმატებით დაასრულე გაკვეთილი <span className="font-bold text-white">„{lessonTitle}"</span>
           </p>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-4 mb-10 relative z-10">
-            <div className="glass-card p-6 rounded-2xl group hover:scale-105 transition-transform">
-              <div className="text-4xl font-black text-blue-400 mb-2 group-hover:text-blue-300 transition-colors">{totalQuestions}</div>
-              <div className="text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">კითხვა</div>
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-10 relative z-10">
+            <div className="glass-card p-3 sm:p-6 rounded-xl sm:rounded-2xl group hover:scale-105 transition-transform">
+              <div className="text-2xl sm:text-4xl font-black text-blue-400 mb-1 sm:mb-2 group-hover:text-blue-300 transition-colors">{totalQuestions}</div>
+              <div className="text-xs sm:text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">კითხვა</div>
             </div>
-            <div className="glass-card p-6 rounded-2xl group hover:scale-105 transition-transform">
-              <div className="text-4xl font-black text-emerald-400 mb-2 group-hover:text-emerald-300 transition-colors">{answeredQuestions.size}</div>
-              <div className="text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">სწორი</div>
+            <div className="glass-card p-3 sm:p-6 rounded-xl sm:rounded-2xl group hover:scale-105 transition-transform">
+              <div className="text-2xl sm:text-4xl font-black text-emerald-400 mb-1 sm:mb-2 group-hover:text-emerald-300 transition-colors">{answeredQuestions.size}</div>
+              <div className="text-xs sm:text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">სწორი</div>
             </div>
-            <div className="glass-card p-6 rounded-2xl group hover:scale-105 transition-transform">
-              <div className="text-4xl font-black text-amber-400 mb-2 group-hover:text-amber-300 transition-colors">{accuracy}%</div>
-              <div className="text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">სიზუსტე</div>
+            <div className="glass-card p-3 sm:p-6 rounded-xl sm:rounded-2xl group hover:scale-105 transition-transform">
+              <div className="text-2xl sm:text-4xl font-black text-amber-400 mb-1 sm:mb-2 group-hover:text-amber-300 transition-colors">{accuracy}%</div>
+              <div className="text-xs sm:text-sm font-bold text-blue-200/60 georgian-body uppercase tracking-wider">სიზუსტე</div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center relative z-10">
             <button
               onClick={() => window.location.href = '/onboarding'}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-lg hover:from-blue-500 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 georgian-body border border-white/10"
+              className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-base sm:text-lg hover:from-blue-500 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 georgian-body border border-white/10"
             >
               სხვა საგანი
             </button>
@@ -200,12 +183,10 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
   }
 
   return (
-    <div className="w-full pb-24">
-      {/* XP & Streak Display - Top Banner */}
+    <div className="w-full pb-8 sm:pb-12 lg:pb-2 lg:flex lg:flex-col lg:min-h-0">
       {userProfile && (
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* XP Bar */}
-          <div className="glass-panel p-1 rounded-2xl">
+        <div className="mb-2 sm:mb-3 lg:mb-1.5 flex flex-col sm:flex-row gap-2 sm:gap-2 lg:gap-2">
+          <div className="glass-panel p-1 lg:p-0.5 rounded-lg sm:rounded-xl lg:rounded-lg flex-1">
             <XPBar
               profile={userProfile}
               levelInfo={levelInfo}
@@ -216,15 +197,12 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
             />
           </div>
 
-          {/* Enhanced Streak Counter with Fire Effects */}
-          <div className="glass-panel px-4 py-3 rounded-2xl flex items-center gap-4 relative overflow-hidden">
-            {/* Flame background glow */}
+          <div className="glass-panel px-2 sm:px-3 lg:px-3 py-1.5 sm:py-2 lg:py-1.5 rounded-lg sm:rounded-xl lg:rounded-xl flex items-center gap-2 sm:gap-3 lg:gap-2 relative overflow-hidden sm:flex-1">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-red-500/5 to-orange-500/5 animate-pulse"></div>
 
-            {/* Fire Icon with enhanced effects */}
             <div className="relative z-10">
               <motion.div
-                className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 shadow-[0_0_20px_rgba(234,88,12,0.5)]"
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-8 lg:h-8 rounded-lg lg:rounded-lg bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 shadow-[0_0_20px_rgba(234,88,12,0.5)]"
                 animate={{
                   boxShadow: totalCorrectStreak > 0
                     ? [
@@ -236,15 +214,13 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="text-white font-black text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                <span className="text-white font-black text-2xl lg:text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                   🔥
                 </span>
               </motion.div>
 
-              {/* Enhanced Flame particles */}
               {totalCorrectStreak > 0 && (
                 <>
-                  {/* Large orange flame */}
                   <motion.div
                     className="absolute top-0 left-1/2 -ml-1 w-2 h-3 bg-gradient-to-t from-orange-500 to-orange-300 rounded-full blur-[2px]"
                     animate={{
@@ -255,7 +231,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                     }}
                     transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
                   />
-                  {/* Medium red flame */}
                   <motion.div
                     className="absolute top-0 left-1/2 -ml-0.5 w-1.5 h-2.5 bg-gradient-to-t from-red-500 to-red-300 rounded-full blur-[2px]"
                     animate={{
@@ -266,7 +241,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                     }}
                     transition={{ duration: 1, repeat: Infinity, delay: 0.2, ease: "easeOut" }}
                   />
-                  {/* Small yellow flame */}
                   <motion.div
                     className="absolute top-0 left-1/2 -ml-0.5 w-1 h-2 bg-gradient-to-t from-yellow-500 to-yellow-200 rounded-full blur-[1px]"
                     animate={{
@@ -277,7 +251,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                     }}
                     transition={{ duration: 0.8, repeat: Infinity, delay: 0.4, ease: "easeOut" }}
                   />
-                  {/* Extra orange particle */}
                   <motion.div
                     className="absolute top-1 left-1/2 ml-1 w-1 h-1.5 bg-gradient-to-t from-orange-600 to-orange-400 rounded-full blur-[1px]"
                     animate={{
@@ -288,7 +261,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                     }}
                     transition={{ duration: 1.1, repeat: Infinity, delay: 0.6, ease: "easeOut" }}
                   />
-                  {/* Subtle red accent */}
                   <motion.div
                     className="absolute top-1 left-1/2 -ml-1.5 w-1 h-1.5 bg-gradient-to-t from-red-600 to-red-400 rounded-full blur-[1px]"
                     animate={{
@@ -304,9 +276,9 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
             </div>
 
             <div className="flex-1 relative z-10">
-              <div className="text-xs text-blue-200/60 font-bold uppercase tracking-wider georgian-body">სტრიქი</div>
+              <div className="text-xs lg:text-[10px] text-blue-200/60 font-bold uppercase tracking-wider georgian-body">სტრიქი</div>
               <motion.div
-                className="text-2xl font-black bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent"
+                className="text-xl sm:text-2xl lg:text-lg font-black bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent"
                 animate={{
                   backgroundPosition: ['0%', '100%', '0%']
                 }}
@@ -337,10 +309,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         </div>
       )}
 
-      {/* XP Gain Animation - Improved Dark Blue Design */}
-
-
-      {/* Level Up Modal */}
       {
         levelUpData && (
           <LevelUpModal
@@ -354,15 +322,14 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         )
       }
 
-      {/* Clean Progress Header - Fixed at Top */}
-      <div className="mb-8 glass-panel p-6 rounded-2xl relative overflow-hidden">
-        <div className="flex items-center justify-between mb-4 relative z-10">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl font-black text-white">
+      <div className="mb-3 sm:mb-4 lg:mb-3 glass-panel p-3 sm:p-4 lg:p-4 rounded-lg sm:rounded-xl lg:rounded-xl relative overflow-hidden">
+        <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-2 relative z-10">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
+            <span className="text-xl sm:text-2xl lg:text-xl font-black text-white">
               {currentQuestionIndex + 1}
             </span>
             <span className="text-white/20 font-medium">/</span>
-            <span className="text-lg font-medium text-white/40">{totalQuestions}</span>
+            <span className="text-base sm:text-lg lg:text-base font-medium text-white/40">{totalQuestions}</span>
 
             <div className="hidden sm:flex items-center gap-2 ml-4">
               <div className="h-6 w-px bg-white/10"></div>
@@ -386,7 +353,6 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
           )}
         </div>
 
-        {/* Sleek Progress Bar - Laser Beam Effect */}
         <div className="relative w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5">
           <div
             className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-700 ease-out"
@@ -398,8 +364,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         </div>
       </div>
 
-      {/* Question Card - Clean & Focused */}
-      <div className="mb-8">
+      <div className="mb-4 sm:mb-6 lg:mb-2 lg:flex-1 lg:min-h-0">
         <QuestionInteractive
           key={currentQuestion.id}
           question={currentQuestion}
@@ -410,26 +375,26 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         />
       </div>
 
-      {/* Navigation Buttons - Modern & Clean */}
-      <div className="flex items-center justify-between gap-4 px-2">
+      <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-2 px-1 sm:px-2 lg:mt-1">
         <button
           onClick={goToPreviousQuestion}
           disabled={currentQuestionIndex === 0}
           className={cn(
-            "flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 georgian-body border",
+            "flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 lg:px-3 py-2.5 sm:py-3 lg:py-2 rounded-lg sm:rounded-xl lg:rounded-lg font-bold text-xs sm:text-sm lg:text-xs transition-all duration-300 georgian-body border",
             currentQuestionIndex === 0
               ? "text-white/20 border-transparent cursor-not-allowed"
               : "text-blue-200 hover:text-white bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
           )}
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span className="hidden sm:inline">წინა კითხვა</span>
+          <span className="sm:hidden">წინა</span>
         </button>
 
         {answeredQuestions.has(currentQuestionIndex) && (
           <button
             onClick={goToNextQuestion}
-            className="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-base transition-all duration-300 georgian-body shadow-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 hover:shadow-emerald-500/25 hover:scale-[1.02] active:scale-[0.98] border border-emerald-400/20"
+            className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-8 lg:px-4 py-2.5 sm:py-3.5 lg:py-2 rounded-lg sm:rounded-xl lg:rounded-lg font-bold text-sm sm:text-base lg:text-sm transition-all duration-300 georgian-body shadow-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 hover:shadow-emerald-500/25 hover:scale-[1.02] active:scale-[0.98] border border-emerald-400/20"
           >
             {currentQuestionIndex === totalQuestions - 1 ? 'დასრულება' : 'შემდეგი'}
             {currentQuestionIndex !== totalQuestions - 1 && <ArrowRight className="w-4 h-4" />}

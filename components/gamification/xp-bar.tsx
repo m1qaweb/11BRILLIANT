@@ -18,7 +18,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
   const [displayXP, setDisplayXP] = useState(0)
   const progressPercent = progress?.progress_percent || 0
 
-  // Animate XP counter
   useEffect(() => {
     const duration = 1000
     const steps = 50
@@ -40,15 +39,13 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative overflow-hidden">
-        {/* Level Badge */}
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)] relative z-10">
-          <span className="text-white font-black text-lg">{profile.current_level}</span>
+      <div className="flex items-center gap-2 lg:gap-2 px-3 lg:px-2 py-1.5 lg:py-1 bg-white/5 rounded-lg lg:rounded-lg border border-white/10 backdrop-blur-sm relative overflow-hidden">
+        <div className="flex items-center justify-center w-9 h-9 lg:w-7 lg:h-7 rounded-lg lg:rounded-md bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)] relative z-10">
+          <span className="text-white font-black text-base lg:text-sm">{profile.current_level}</span>
         </div>
 
-        {/* Progress Bar */}
-        <div className="flex-1 min-w-[100px] relative z-10">
-          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="flex-1 min-w-[80px] lg:min-w-[60px] relative z-10">
+          <div className="h-1.5 lg:h-1 bg-white/10 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
@@ -59,7 +56,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
             </motion.div>
           </div>
 
-          {/* Inline XP Gain Animation */}
           <AnimatePresence>
             {lastXPGain && (
               <motion.div
@@ -76,8 +72,7 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
           </AnimatePresence>
         </div>
 
-        {/* XP Count */}
-        <div className="text-sm font-bold text-blue-200 whitespace-nowrap relative z-10">
+        <div className="text-sm lg:text-xs font-bold text-blue-200 whitespace-nowrap relative z-10">
           {displayXP.toLocaleString()} XP
         </div>
       </div>
@@ -87,10 +82,8 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-6">
-        {/* Level Info */}
         <div className="flex items-center gap-6">
           <div className="relative group">
-            {/* Level Badge with Glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-50 animate-pulse group-hover:opacity-75 transition-opacity"></div>
             <div className="relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] border border-white/10 shadow-2xl group-hover:scale-105 transition-transform duration-300">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-cyan-400 to-purple-400 font-black text-4xl drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
@@ -110,7 +103,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
           </div>
         </div>
 
-        {/* Next Level Preview */}
         {showDetails && (
           <div className="hidden sm:flex flex-col items-end">
             <div className="flex items-center gap-2 text-sm text-blue-200/60 mb-1">
@@ -124,7 +116,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
         )}
       </div>
 
-      {/* Progress Bar */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-sm">
           <span className="font-bold text-blue-200/60">
@@ -135,7 +126,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
           </span>
         </div>
 
-        {/* Animated Progress Bar - Laser Beam Effect */}
         <div className="relative h-6 bg-black/40 rounded-full overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] border border-white/5">
           <motion.div
             initial={{ width: 0 }}
@@ -143,17 +133,11 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
             transition={{ duration: 1.5, ease: 'easeOut' }}
             className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-full"
           >
-            {/* Core Beam */}
             <div className="absolute inset-y-[25%] left-0 right-0 bg-white/50 blur-[2px]"></div>
-
-            {/* Shimmer Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
-
-            {/* Glow at the tip */}
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-12 bg-white/80 blur-lg transform translate-x-1/2"></div>
           </motion.div>
 
-          {/* Milestone Markers */}
           {[25, 50, 75].map((milestone) => (
             <div
               key={milestone}
@@ -166,7 +150,6 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
           ))}
         </div>
 
-        {/* Motivational Text */}
         {showDetails && (
           <p className="text-sm text-center text-blue-200/60 mt-4 georgian-body font-medium">
             {progressPercent < 30 && "კარგად იწყებ! გააგრძელე! 💪"}

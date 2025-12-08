@@ -45,10 +45,6 @@ export function QuestionInteractive({
   onAnswered,
   onContinue
 }: QuestionInteractiveProps) {
-  // State now stores IDs instead of indices
-  // single_choice: { optionId: string }
-  // multiple_choice: { optionIds: string[] }
-  // numeric: { value: number }
   const [selectedAnswer, setSelectedAnswer] = useState<any>(null)
   const [attemptNumber, setAttemptNumber] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -59,7 +55,6 @@ export function QuestionInteractive({
   const [showHint, setShowHint] = useState(false)
   const [xpResult, setXpResult] = useState<XPAwardResult | null>(null)
 
-  // Options are now passed directly in the question object
   const options = question.options || []
 
   async function handleSubmit() {
@@ -81,10 +76,8 @@ export function QuestionInteractive({
         feedback: result.feedback,
       })
 
-      // Get XP amount from server response (server already awarded the XP)
       const xpGained = result.xpAwarded || 0
 
-      // Notify parent component that question was answered
       if (onAnswered) {
         onAnswered(result.isCorrect, xpGained)
       }
@@ -112,23 +105,21 @@ export function QuestionInteractive({
   return (
     <>
       <div className={cn(
-        "w-full max-w-4xl mx-auto overflow-hidden transition-all duration-500 glass-panel rounded-3xl",
+        "w-full max-w-4xl mx-auto overflow-hidden transition-all duration-500 glass-panel rounded-xl sm:rounded-2xl lg:rounded-xl",
         feedback?.isCorrect === true ? "border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.2)]" : "",
         feedback?.isCorrect === false ? "border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.2)]" : ""
       )}>
-        <div className="p-8 md:p-10">
-          {/* Question Prompt with better typography */}
-          <div className="mb-10">
+        <div className="p-4 sm:p-5 md:p-6 lg:p-5">
+          <div className="mb-4 sm:mb-5 lg:mb-5">
             <div
-              className="prose prose-invert prose-lg max-w-none text-xl leading-relaxed text-white font-medium georgian-body"
+              className="prose prose-invert prose-base sm:prose-lg lg:prose-base max-w-none text-lg sm:text-xl lg:text-[17px] leading-relaxed lg:leading-relaxed text-white font-medium georgian-body"
               dangerouslySetInnerHTML={{ __html: question.stem_ka.replace(/\n/g, '<br />') }}
             />
           </div>
 
-          {/* Question Input with enhanced styling */}
-          <div className="mb-10 animate-slide-up">
+          <div className="mb-4 sm:mb-5 lg:mb-4 animate-slide-up">
             {(question.type === 'mcq' || question.type === 'single_choice') && (
-              <div className="grid gap-3">
+              <div className="grid gap-2 sm:gap-3 lg:gap-2">
                 {options.map((option) => {
                   const isSelected = selectedAnswer?.optionId === option.id
                   const isCorrect = option.is_correct
@@ -139,15 +130,11 @@ export function QuestionInteractive({
                     <label
                       key={option.id}
                       className={cn(
-                        "relative flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all duration-300 group",
-                        // No feedback state
+                        "relative flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-4 lg:p-3 border rounded-lg sm:rounded-xl lg:rounded-lg cursor-pointer transition-all duration-300 group",
                         !feedback && !isSelected && "border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20",
                         !feedback && isSelected && "border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.3)]",
-                        // Correct answer
                         showCorrect && "border-emerald-500 bg-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.3)]",
-                        // Incorrect answer
                         showIncorrect && "border-red-500 bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.3)]",
-                        // Disable pointer events after feedback
                         feedback && "pointer-events-none"
                       )}
                     >
@@ -174,12 +161,11 @@ export function QuestionInteractive({
                         </div>
                       </div>
                       <span className={cn(
-                        "text-base font-medium transition-colors",
+                        "text-sm sm:text-base lg:text-[15px] font-medium transition-colors",
                         showCorrect && "text-emerald-300",
                         showIncorrect && "text-red-300",
                         !feedback && isSelected && "text-blue-200",
                         !feedback && !isSelected && "text-blue-100/80",
-                        // Keep unselected options visible after feedback
                         feedback && !isSelected && "text-blue-100/60"
                       )}>
                         {option.label_ka}
@@ -263,11 +249,10 @@ export function QuestionInteractive({
             )}
           </div>
 
-          {/* Compact Feedback Message */}
           {feedback && !feedback.isCorrect && (
-            <div className="mb-6 p-4 rounded-xl border animate-slide-up flex items-center gap-3 bg-red-500/10 border-red-500/20 backdrop-blur-sm">
-              <XCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-              <span className="text-sm font-medium text-red-200">
+            <div className="mb-4 lg:mb-3 p-3 lg:p-2.5 rounded-lg lg:rounded-lg border animate-slide-up flex items-center gap-3 lg:gap-2 bg-red-500/10 border-red-500/20 backdrop-blur-sm">
+              <XCircle className="w-5 h-5 lg:w-4 lg:h-4 text-red-400 flex-shrink-0" />
+              <span className="text-sm lg:text-xs font-medium text-red-200">
                 არასწორია. სცადეთ თავიდან
               </span>
               {attemptNumber < 3 && (
@@ -279,12 +264,12 @@ export function QuestionInteractive({
           )}
         </div>
 
-        <div className="bg-black/20 border-t border-white/5 p-6 flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+        <div className="bg-black/20 border-t border-white/5 p-3 sm:p-4 lg:p-3 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 lg:gap-2">
           <Button
             variant="ghost"
             onClick={() => setShowHint(!showHint)}
-            disabled={true} // Hints not yet implemented in V2
-            className="text-blue-200/40 hover:text-blue-200 hover:bg-white/5 w-full sm:w-auto cursor-not-allowed"
+            disabled={true}
+            className="text-blue-200/40 hover:text-blue-200 hover:bg-white/5 w-full sm:w-auto cursor-not-allowed text-sm sm:text-base lg:text-xs lg:py-1.5"
           >
             <Lightbulb className="w-4 h-4 mr-2" />
             მინიშნება (მალე)
@@ -295,7 +280,7 @@ export function QuestionInteractive({
               <Button
                 variant="secondary"
                 onClick={handleReset}
-                className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/10"
+                className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/10 text-sm sm:text-base lg:text-xs lg:py-1.5"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 თავიდან
@@ -305,10 +290,10 @@ export function QuestionInteractive({
               onClick={handleSubmit}
               disabled={!selectedAnswer || isSubmitting || !!feedback}
               className={cn(
-                "w-full sm:w-auto min-w-[140px] font-bold shadow-lg transition-all",
+                "w-full sm:w-auto min-w-[140px] lg:min-w-[120px] font-bold shadow-lg transition-all lg:text-sm lg:py-2.5",
                 feedback?.isCorrect
-                  ? "hidden" // Hide button when correct, navigation moves to bottom bar
-                  : "bg-white text-black hover:bg-blue-50 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+                  ? "hidden"
+                  : "bg-gradient-to-r from-[#1e3a5f] via-[#2d4a6f] to-[#1e3a5f] text-white border border-blue-400/30 hover:from-[#2a4a70] hover:via-[#3d5a80] hover:to-[#2a4a70] hover:border-blue-400/50 hover:shadow-blue-500/20 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
               )}
             >
               {isSubmitting ? (
@@ -321,21 +306,19 @@ export function QuestionInteractive({
         </div>
       </div>
 
-      {/* Inline Feedback Banner for Correct Answer - Compact */}
       {feedback?.isCorrect && (
-        <div className="mt-6 rounded-2xl bg-[#0f172a]/50 border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)] animate-slide-up overflow-hidden relative">
+        <div className="mt-3 sm:mt-4 lg:mt-2 rounded-lg lg:rounded-lg bg-[#0f172a]/50 border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)] animate-slide-up overflow-hidden relative">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent"></div>
-          <div className="px-6 py-4 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+          <div className="px-4 sm:px-5 lg:px-4 py-2.5 sm:py-3 lg:py-2 flex items-center justify-between gap-3 sm:gap-4 lg:gap-3">
+            <div className="flex items-center gap-2 lg:gap-2">
+              <div className="w-7 h-7 lg:w-6 lg:h-6 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                <CheckCircle2 className="w-4 h-4 lg:w-3.5 lg:h-3.5 text-emerald-400" />
               </div>
-              <div className="text-lg font-black text-emerald-400 georgian-heading text-glow">
+              <div className="text-base lg:text-sm font-black text-emerald-400 georgian-heading text-glow">
                 სწორია!
               </div>
             </div>
 
-            {/* XP Points */}
             {xpResult && (
               <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
                 <span className="text-lg">✨</span>

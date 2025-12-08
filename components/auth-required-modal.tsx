@@ -17,7 +17,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
 
   useEffect(() => {
     if (isOpen) {
-      // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
@@ -50,7 +49,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
     <AnimatePresence>
       {isOpen && !isClosing && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -59,7 +57,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
           />
 
-          {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -69,7 +66,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
               className="relative w-full max-w-md pointer-events-auto"
             >
               <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-                {/* Close Button */}
                 <button
                   onClick={handleClose}
                   className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"
@@ -77,9 +73,7 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
 
-                {/* Content */}
                 <div className="p-8 sm:p-10 text-center">
-                  {/* Lock Icon */}
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
@@ -89,7 +83,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                     <Lock className="w-10 h-10 text-blue-600" />
                   </motion.div>
 
-                  {/* Title */}
                   <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -99,7 +92,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                     რეგისტრაცია აუცილებელია
                   </motion.h2>
 
-                  {/* Description */}
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -112,7 +104,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                     </span>
                   </motion.p>
 
-                  {/* Benefits List */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -140,14 +131,12 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                     </ul>
                   </motion.div>
 
-                  {/* Action Buttons */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                     className="flex flex-col sm:flex-row gap-3"
                   >
-                    {/* Register Button (Primary) */}
                     <button
                       onClick={handleRegister}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-base hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl georgian-body"
@@ -156,7 +145,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                       რეგისტრაცია
                     </button>
 
-                    {/* Login Button (Secondary) */}
                     <button
                       onClick={handleLogin}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white text-gray-700 font-bold text-base hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transform hover:scale-[1.02] transition-all duration-300 georgian-body"
@@ -166,7 +154,6 @@ export function AuthRequiredModal({ isOpen, onClose, redirectTo }: AuthRequiredM
                     </button>
                   </motion.div>
 
-                  {/* Guest Option */}
                   <motion.button
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

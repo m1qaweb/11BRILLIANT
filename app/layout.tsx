@@ -11,6 +11,20 @@ export const metadata: Metadata = {
   title: 'გონი - ინტერაქტიული სწავლების პლატფორმა',
   description: 'დაეუფლე რთულ კონცეფციებს ინტერაქტიული ამოცანების გადაჭრისა და მართული აღმოჩენის გზით',
   keywords: ['სწავლა', 'განათლება', 'მათემატიკა', 'მეცნიერება', 'ინტერაქტიული'],
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  openGraph: {
+    title: 'გონი - ინტერაქტიული სწავლების პლატფორმა',
+    description: 'დაეუფლე რთულ კონცეფციებს ინტერაქტიული ამოცანების გადაჭრისა და მართული აღმოჩენის გზით',
+    images: ['/logo.png'],
+    type: 'website',
+  },
 }
 
 export default function RootLayout({

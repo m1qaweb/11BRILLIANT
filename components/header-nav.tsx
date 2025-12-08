@@ -6,6 +6,7 @@ import { signOutAction } from '@/app/actions/auth'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import type { UserProfile, LevelProgress, Level } from '@/lib/types/gamification'
+import { Logo } from './logo'
 
 export function HeaderNav() {
   const { user, loading } = useUser()
@@ -17,7 +18,6 @@ export function HeaderNav() {
 
 
 
-  // Fetch user profile data
   useEffect(() => {
     if (user) {
       fetch('/api/gamification/profile')
@@ -40,25 +40,14 @@ export function HeaderNav() {
     >
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          {/* Logo with Georgian */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-blue-700 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-              გ
-            </div>
-            <span className="text-xl font-black tracking-tight transition-all duration-300 georgian-heading text-white group-hover:text-blue-400">
-              გონი
-            </span>
-          </Link>
+          <Logo size="md" showText={true} />
 
-          {/* XP Bar (Desktop - when logged in) */}
           {!loading && user && profile && (
             <Link href="/profile" className="hidden lg:flex items-center gap-3 px-4 py-2 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex-1 max-w-md">
-              {/* Level Badge */}
               <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-md flex-shrink-0">
                 <span className="text-white font-black text-sm">{profile.current_level}</span>
               </div>
 
-              {/* Progress Bar */}
               <div className="flex-1 min-w-[100px]">
                 <div className="flex items-center justify-between text-xs mb-1">
                   <span className="font-bold text-blue-100">{levelInfo?.title_ka || 'დამწყები'}</span>
@@ -72,16 +61,13 @@ export function HeaderNav() {
                 </div>
               </div>
 
-              {/* XP Count */}
               <div className="text-sm font-bold text-white whitespace-nowrap flex-shrink-0">
                 {profile.total_xp.toLocaleString()} XP
               </div>
             </Link>
           )}
 
-          {/* Auth Buttons with modern design */}
           <div className="flex items-center gap-3">
-            {/* Profile Link (Mobile) */}
             {!loading && user && (
               <Link
                 href="/profile"
@@ -123,7 +109,6 @@ export function HeaderNav() {
                   </svg>
                 </button>
 
-                {/* Dropdown Menu */}
                 {isMenuOpen && (
                   <>
                     <div

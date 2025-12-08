@@ -5,7 +5,6 @@ import { SingleQuestionQuiz } from '@/components/single-question-quiz'
 import { LessonAuthWrapper } from '@/components/lesson-auth-wrapper'
 import { Clock, ArrowLeft, ArrowRight, BookOpen } from 'lucide-react'
 
-// Manual type definitions
 type Lesson = {
   id: string
   title_ka: string
@@ -74,7 +73,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const resolvedParams = await params
   const supabase = await createClient()
 
-  // Fetch lesson with course and subject info
   const { data: lesson, error: lessonError } = await supabase
     .from('lessons')
     .select(`
@@ -94,7 +92,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const course = lesson.course as unknown as Course & { subject: Subject }
   const subject = course.subject
 
-  // Fetch questions for this lesson (without join to avoid FK issues)
   const { data: questionsData, error: questionsError } = await supabase
     .from('questions')
     .select('*')
@@ -105,7 +102,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
     console.error('Error fetching questions:', questionsError)
   }
 
-  // Fetch all question options for these questions
   const questionIds = (questionsData || []).map(q => q.id)
   const { data: optionsData, error: optionsError } = await supabase
     .from('question_options')
@@ -117,7 +113,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
     console.error('Error fetching options:', optionsError)
   }
 
-  // Group options by question_id
   const optionsByQuestion = (optionsData || []).reduce((acc, option) => {
     if (!acc[option.question_id]) {
       acc[option.question_id] = []
@@ -126,13 +121,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
     return acc
   }, {} as Record<string, QuestionOption[]>)
 
-  // Attach options to questions
   const questions = (questionsData || []).map(q => ({
     ...q,
     options: (optionsByQuestion[q.id] || []).sort((a: QuestionOption, b: QuestionOption) => a.order_index - b.order_index)
   })) as unknown as Question[]
 
-  // Fetch other lessons in course for navigation
   const { data: allLessons } = await supabase
     .from('lessons')
     .select('id, slug, title_ka, order_index')
@@ -148,14 +141,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
   return (
     <LessonAuthWrapper hasQuestions={hasQuestions} lessonSlug={resolvedParams.lessonSlug}>
       <div className="min-h-screen">
-        {/* Only show breadcrumb and lesson header if NO questions (quiz mode hides these) */}
         {!hasQuestions && (
           <>
-            {/* Sticky Progress Header */}
             <div className="sticky top-0 z-40 bg-[#0f172a]/80 backdrop-blur-xl border-b border-white/10 shadow-lg">
               <div className="container mx-auto px-4 py-3">
                 <div className="flex items-center justify-between">
-                  {/* Breadcrumb */}
                   <nav className="text-sm text-blue-200/60 flex items-center gap-2 font-medium">
                     <Link href="/subjects" className="hover:text-white transition-colors">
                       საგნები
@@ -172,7 +162,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
                     <span className="text-white font-bold">{lesson.title_ka}</span>
                   </nav>
 
-                  {/* Progress Indicator */}
                   {allLessons && allLessons.length > 1 && (
                     <div className="text-xs font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-200">
                       გაკვეთილი {currentIndex + 1} / {allLessons.length}
@@ -182,10 +171,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
               </div>
             </div>
 
-            {/* Main Content */}
             <div className="container mx-auto px-4 py-12">
               <div className="max-w-4xl mx-auto">
-                {/* Lesson Header */}
                 <div className="mb-12 animate-slide-up">
                   <div className="flex items-center gap-3 mb-4">
                     {lesson.estimated_minutes && (
@@ -211,9 +198,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
           </>
         )}
 
-        {/* Questions Section - Single Question at a Time */}
         {hasQuestions ? (
-          <div className="container mx-auto px-4 pt-24">
+          <div className="container mx-auto px-2 sm:px-3 lg:px-4 pt-8 sm:pt-12 lg:pt-2">
             <SingleQuestionQuiz
               questions={questions}
               lessonId={lesson.id}
@@ -223,7 +209,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
         ) : (
           <div className="container mx-auto px-4 pb-20">
             <div className="max-w-4xl mx-auto">
-              {/* Lesson Content Blocks - Only show if no questions */}
               <div className="glass-panel p-8 md:p-12 rounded-3xl mb-12 animate-slide-up" style={{ animationDelay: '0.1s' }}>
                 <div className="prose prose-invert prose-lg max-w-none georgian-body">
                   {lesson.content_blocks && Array.isArray(lesson.content_blocks) ? (
@@ -244,7 +229,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 </div>
               </div>
 
-              {/* Lesson Navigation - Only show if no questions */}
               <div className="flex items-center justify-between pt-8 border-t border-white/10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <div>
                   {prevLesson ? (

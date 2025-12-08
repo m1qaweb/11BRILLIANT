@@ -19,14 +19,12 @@ const GRADES = [
 ]
 
 export default function OnboardingPage() {
-  // Set page title
   useEffect(() => {
     document.title = 'აირჩიე შენი დონე - გონი'
   }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-      {/* Hero Section */}
       <div className="container mx-auto px-4 py-12 md:py-20">
         <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
           <div className="inline-block mb-6 px-6 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-sm">
@@ -42,7 +40,6 @@ export default function OnboardingPage() {
           </p>
         </div>
 
-        {/* Grade Grid - 3x4 Layout */}
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {GRADES.map((grade) => (
@@ -58,28 +55,22 @@ export default function OnboardingPage() {
                   if (grade.id === 12) {
                     e.preventDefault()
                   } else {
-                    // Store grade preference in localStorage
                     if (typeof window !== 'undefined') {
                       localStorage.setItem('selectedGrade', grade.id.toString())
                     }
                   }
                 }}
               >
-                {/* Gradient Background */}
                 <div className={`
                   absolute inset-0 bg-gradient-to-br ${grade.color}
                   transition-all duration-500 group-hover:scale-110
                 `} />
                 
-                {/* Pattern Overlay */}
                 <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
                 
-                {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 
-                {/* Content */}
                 <div className="relative h-full flex flex-col items-center justify-center p-6 text-white">
-                  {/* Roman Numeral or Higher Education Text */}
                   {grade.id === 12 ? (
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-center georgian-heading drop-shadow-lg leading-tight px-4">
                       უმაღლესი<br />განათლება
@@ -90,21 +81,18 @@ export default function OnboardingPage() {
                         {grade.numeral}
                       </div>
                       
-                      {/* Label */}
                       <h3 className="text-sm md:text-base font-semibold text-center mb-2 georgian-heading drop-shadow-lg opacity-90">
                         კლასი
                       </h3>
                     </>
                   )}
                   
-                  {/* Coming Soon Badge for Higher Education */}
                   {grade.id === 12 && (
                     <div className="absolute top-4 right-4 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold">
                       მალე
                     </div>
                   )}
                   
-                  {/* Arrow Icon */}
                   {grade.id !== 12 && (
                     <div className="mt-2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-all">
                       <svg 
@@ -119,7 +107,6 @@ export default function OnboardingPage() {
                   )}
                 </div>
                 
-                {/* Shine Effect on Hover */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 </div>
@@ -128,7 +115,6 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Info Section */}
         <div className="mt-16 text-center max-w-2xl mx-auto">
           <div className="card-elevated p-8">
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -144,7 +130,6 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Skip Option */}
         <div className="mt-8 text-center">
           <Link 
             href="/subjects"

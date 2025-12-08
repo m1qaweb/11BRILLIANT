@@ -23,14 +23,11 @@ export default function LessonLayout({
 
   return (
     <>
-      {/* Clean, focused quiz environment - Dark Cosmic Theme */}
       <div className="fixed inset-0 bg-[#0f172a] overflow-hidden">
-        {/* Ambient Background Glows */}
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
 
-        {/* Minimal Exit Button - Top Left */}
         <div className="fixed top-6 left-6 z-50">
           <button
             onClick={handleExit}
@@ -43,26 +40,23 @@ export default function LessonLayout({
           </button>
         </div>
 
-        {/* Main Content - Centered & Focused, No Scroll */}
-        <main className="h-full flex items-center justify-center py-8 px-4 overflow-y-auto scrollbar-hide relative z-10">
-          <div className="w-full max-w-4xl">
-            {children}
+        <main className="h-full overflow-y-auto lg:overflow-hidden scrollbar-hide relative z-10">
+          <div className="min-h-full flex flex-col justify-center py-4 sm:py-6 lg:py-3 px-3 sm:px-4 lg:px-6">
+            <div className="w-full max-w-4xl lg:max-w-2xl mx-auto lg:max-h-[calc(100vh-80px)] lg:flex lg:flex-col">
+              {children}
+            </div>
           </div>
         </main>
       </div>
 
-      {/* Exit Confirmation Modal */}
       {showExitConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-[#0f172a]/80 backdrop-blur-md"
             onClick={() => setShowExitConfirm(false)}
           />
 
-          {/* Modal */}
           <div className="relative bg-[#1e293b]/90 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8 max-w-md w-full overflow-hidden">
-            {/* Modal Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-blue-500/10 blur-3xl pointer-events-none"></div>
 
             <h3 className="text-2xl font-bold mb-3 text-white relative z-10 georgian-heading">დარწმუნებული ხართ?</h3>

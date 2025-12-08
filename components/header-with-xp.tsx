@@ -6,6 +6,7 @@ import { signOutAction } from '@/app/actions/auth'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import type { UserProfile, LevelProgress, Level } from '@/lib/types/gamification'
+import { Logo } from './logo'
 
 interface HeaderWithXPProps {
   profile: UserProfile | null
@@ -31,15 +32,8 @@ export function HeaderWithXP({ profile, levelInfo, progress }: HeaderWithXPProps
     >
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between gap-4">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-blue-700 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-              გ
-            </div>
-            <span className="text-xl font-black tracking-tight transition-all duration-300 georgian-heading text-white group-hover:text-blue-400">
-              გონი
-            </span>
-          </Link>
+          {/* Logo with Brain Imagery */}
+          <Logo size="md" showText={true} />
 
           {/* XP Bar (Desktop - when logged in) */}
           {!loading && user && profile && (
