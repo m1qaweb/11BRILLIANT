@@ -39,13 +39,13 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2 lg:gap-2 px-3 lg:px-2 py-1.5 lg:py-1 bg-white/5 rounded-lg lg:rounded-lg border border-white/10 backdrop-blur-sm relative overflow-hidden">
-        <div className="flex items-center justify-center w-9 h-9 lg:w-7 lg:h-7 rounded-lg lg:rounded-md bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)] relative z-10">
-          <span className="text-white font-black text-base lg:text-sm">{profile.current_level}</span>
+      <div className="flex items-center gap-2 lg:gap-3 px-3 lg:px-3 py-1.5 lg:py-2 bg-white/5 rounded-lg lg:rounded-xl border border-white/10 backdrop-blur-sm relative overflow-hidden">
+        <div className="flex items-center justify-center w-9 h-9 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.3)] relative z-10">
+          <span className="text-white font-black text-base lg:text-lg">{profile.current_level}</span>
         </div>
 
-        <div className="flex-1 min-w-[80px] lg:min-w-[60px] relative z-10">
-          <div className="h-1.5 lg:h-1 bg-white/10 rounded-full overflow-hidden">
+        <div className="flex-1 min-w-[80px] lg:min-w-[80px] relative z-10">
+          <div className="h-1.5 lg:h-2 bg-white/10 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
@@ -72,7 +72,7 @@ export function XPBar({ profile, levelInfo, progress, compact = false, showDetai
           </AnimatePresence>
         </div>
 
-        <div className="text-sm lg:text-xs font-bold text-blue-200 whitespace-nowrap relative z-10">
+        <div className="text-sm lg:text-sm font-bold text-blue-200 whitespace-nowrap relative z-10">
           {displayXP.toLocaleString()} XP
         </div>
       </div>

@@ -11,17 +11,17 @@ export default async function DashboardPage() {
   const user = await requireAuth()
   const supabase = await createClient() as any
 
-  // Fetch user profile
+  
   const profile = await getUserProfile(user.id)
 
-  // Fetch streak data
+ 
   const { data: streak } = await supabase
     .from('streaks')
     .select('*')
     .eq('user_id', user.id)
     .single()
 
-  // Fetch lesson progress with lesson details
+  
   const { data: lessonProgress } = await supabase
     .from('lesson_progress')
     .select(`
@@ -47,32 +47,30 @@ export default async function DashboardPage() {
     .order('last_viewed_at', { ascending: false })
     .limit(5)
 
-  // Fetch total question attempts
   const { count: totalAttempts } = await supabase
     .from('question_attempts')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
 
-  // Fetch correct question attempts
+  
   const { count: correctAttempts } = await supabase
     .from('question_attempts')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
     .eq('is_correct', true)
 
-  // Calculate accuracy
+ 
   const accuracy = totalAttempts && totalAttempts > 0
     ? Math.round((correctAttempts! / totalAttempts) * 100)
     : 0
 
-  // Fetch completed lessons count
   const { count: completedLessons } = await supabase
     .from('lesson_progress')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
     .eq('status', 'completed')
 
-  // Find in-progress lesson (most recently viewed, not completed)
+  
   const inProgressLesson = lessonProgress?.find((lp: any) => lp.status !== 'completed')
 
   return (

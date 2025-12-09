@@ -65,10 +65,9 @@ const GRADE_LABELS: Record<string, string> = {
 export default async function SubjectsPage({ searchParams }: SubjectsPageProps) {
   const supabase = await createClient() as any
   const resolvedParams = await searchParams
-  const selectedGrade = resolvedParams.grade || '7' // Default to grade 7
+  const selectedGrade = resolvedParams.grade || '7' 
   const gradeLabel = GRADE_LABELS[selectedGrade] || 'VII კლასი'
 
-  // Fetch all subjects
   const { data: subjects, error } = await supabase
     .from('subjects')
     .select('*')
@@ -82,12 +81,10 @@ export default async function SubjectsPage({ searchParams }: SubjectsPageProps) 
 
   return (
     <div className="min-h-screen py-8 md:py-12 relative overflow-hidden bg-[#0f172a]">
-      {/* Background Ambient Glow - Hidden on mobile for performance */}
       <div className="hidden md:block absolute top-0 left-1/4 w-[400px] lg:w-[600px] h-[400px] lg:h-[600px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="hidden md:block absolute bottom-0 right-1/4 w-[400px] lg:w-[600px] h-[400px] lg:h-[600px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        {/* Header */}
         <div className="text-center mb-8 md:mb-16 animate-slide-up">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4 md:mb-6">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
@@ -108,7 +105,6 @@ export default async function SubjectsPage({ searchParams }: SubjectsPageProps) 
           </p>
         </div>
 
-        {/* Subjects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
           {displaySubjects.map((subject: any, index: number) => {
             const gradientColor = SUBJECT_COLORS[subject.code] || 'from-blue-500 to-purple-500'
@@ -121,11 +117,11 @@ export default async function SubjectsPage({ searchParams }: SubjectsPageProps) 
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="glass-card h-full p-0.5 sm:p-1 rounded-2xl sm:rounded-[2rem] hover:scale-[1.02] transition-transform duration-500 relative">
-                  {/* Hover Glow */}
+                
                   <div className={`absolute inset-0 bg-gradient-to-br ${gradientColor} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 rounded-2xl sm:rounded-[2rem]`}></div>
 
                   <div className="bg-[#0f172a]/80 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[1.8rem] p-5 sm:p-6 lg:p-8 h-full border border-white/5 relative z-10 overflow-hidden group-hover:border-white/20 transition-colors">
-                    {/* Background Pattern */}
+                   
                     <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/5 rounded-full blur-3xl -mr-12 sm:-mr-16 -mt-12 sm:-mt-16 transition-transform duration-700 group-hover:scale-150"></div>
 
                     <div className="relative z-10">
@@ -153,7 +149,6 @@ export default async function SubjectsPage({ searchParams }: SubjectsPageProps) 
                         {SUBJECT_DESCRIPTIONS[subject.code] || subject.name_en}
                       </p>
 
-                      {/* Progress Bar Placeholder */}
                       <div className="w-full bg-white/5 h-1 sm:h-1.5 rounded-full overflow-hidden">
                         <div className={`h-full w-0 group-hover:w-full transition-all duration-1000 ease-out bg-gradient-to-r ${gradientColor}`}></div>
                       </div>

@@ -23,29 +23,29 @@ export default async function ProfilePage() {
   const allBadges = await getAllBadges()
   const xpHistory = await getXPHistory(10)
 
-  // Calculate stats
+  
   const earnedBadgesCount = userBadges.length
   const totalBadgesCount = allBadges.length
   const badgeProgress = Math.round((earnedBadgesCount / totalBadgesCount) * 100)
 
-  // Group badges by category
+ 
   const badgesByCategory = allBadges.reduce((acc, badge) => {
     if (!acc[badge.category]) acc[badge.category] = []
     acc[badge.category].push(badge)
     return acc
   }, {} as Record<string, typeof allBadges>)
 
-  // Get earned badge IDs for quick lookup
+  
   const earnedBadgeIds = new Set(userBadges.map(ub => ub.badge_id))
 
   return (
     <div className="bg-cosmic-main">
-      {/* Background Ambient Glow */}
+     
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
+       
         <div className="mb-12 animate-slide-up">
           <h1 className="text-4xl md:text-6xl font-black text-white mb-3 georgian-heading tracking-tight text-glow">
             ჩემი პროფილი
@@ -55,7 +55,7 @@ export default async function ProfilePage() {
           </p>
         </div>
 
-        {/* XP Progress Card */}
+      
         {profile && (
           <div className="mb-12 animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <div className="card-cosmic p-1 relative overflow-hidden">
@@ -72,9 +72,9 @@ export default async function ProfilePage() {
           </div>
         )}
 
-        {/* Stats Grid */}
+        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          {/* Total XP */}
+         
           <div className="card-cosmic p-6 group hover-lift">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
@@ -92,7 +92,7 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          {/* Current Level */}
+          
           <div className="card-cosmic p-6 group hover-lift">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
@@ -110,7 +110,7 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          {/* Badges Earned */}
+        
           <div className="card-cosmic p-6 group hover-lift">
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
@@ -147,7 +147,7 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        {/* Badges Section */}
+       
         <div className="mb-12 animate-slide-up" style={{ animationDelay: '0.3s' }}>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-black text-white georgian-heading flex items-center gap-3">
@@ -158,7 +158,7 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          {/* Badge Categories */}
+         
           <div className="space-y-8">
             {Object.entries(badgesByCategory).map(([category, badges]) => {
               const categoryEarned = badges.filter(b => earnedBadgeIds.has(b.id)).length
@@ -180,7 +180,7 @@ export default async function ProfilePage() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 relative z-10">
                     {badges
                       .sort((a, b) => {
-                        // Show earned badges first
+                       
                         const aEarned = earnedBadgeIds.has(a.id) ? 0 : 1
                         const bEarned = earnedBadgeIds.has(b.id) ? 0 : 1
                         return aEarned - bEarned
@@ -204,7 +204,7 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        {/* Recent XP History */}
+        
         {xpHistory.length > 0 && (
           <div className="glass-panel p-8 rounded-3xl animate-slide-up" style={{ animationDelay: '0.4s' }}>
             <h2 className="text-2xl font-black text-white mb-6 georgian-heading flex items-center gap-3">

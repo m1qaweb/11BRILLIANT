@@ -183,10 +183,10 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
   }
 
   return (
-    <div className="w-full pb-8 sm:pb-12 lg:pb-2 lg:flex lg:flex-col lg:min-h-0">
+    <div className="w-full pb-8 sm:pb-12 lg:pb-4 lg:flex lg:flex-col lg:min-h-0">
       {userProfile && (
-        <div className="mb-2 sm:mb-3 lg:mb-1.5 flex flex-col sm:flex-row gap-2 sm:gap-2 lg:gap-2">
-          <div className="glass-panel p-1 lg:p-0.5 rounded-lg sm:rounded-xl lg:rounded-lg flex-1">
+        <div className="mb-2 sm:mb-3 lg:mb-3 flex flex-col sm:flex-row gap-2 sm:gap-2 lg:gap-3">
+          <div className="glass-panel p-1 lg:p-1 rounded-lg sm:rounded-xl lg:rounded-xl flex-1">
             <XPBar
               profile={userProfile}
               levelInfo={levelInfo}
@@ -197,12 +197,12 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
             />
           </div>
 
-          <div className="glass-panel px-2 sm:px-3 lg:px-3 py-1.5 sm:py-2 lg:py-1.5 rounded-lg sm:rounded-xl lg:rounded-xl flex items-center gap-2 sm:gap-3 lg:gap-2 relative overflow-hidden sm:flex-1">
+          <div className="glass-panel px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-2 rounded-lg sm:rounded-xl lg:rounded-xl flex items-center gap-2 sm:gap-3 lg:gap-3 relative overflow-hidden sm:flex-1">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-red-500/5 to-orange-500/5 animate-pulse"></div>
 
             <div className="relative z-10">
               <motion.div
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-8 lg:h-8 rounded-lg lg:rounded-lg bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 shadow-[0_0_20px_rgba(234,88,12,0.5)]"
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 shadow-[0_0_20px_rgba(234,88,12,0.5)]"
                 animate={{
                   boxShadow: totalCorrectStreak > 0
                     ? [
@@ -214,7 +214,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="text-white font-black text-2xl lg:text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                <span className="text-white font-black text-2xl lg:text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                   🔥
                 </span>
               </motion.div>
@@ -276,9 +276,9 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
             </div>
 
             <div className="flex-1 relative z-10">
-              <div className="text-xs lg:text-[10px] text-blue-200/60 font-bold uppercase tracking-wider georgian-body">სტრიქი</div>
+              <div className="text-xs lg:text-xs text-blue-200/60 font-bold uppercase tracking-wider georgian-body">სტრიქი</div>
               <motion.div
-                className="text-xl sm:text-2xl lg:text-lg font-black bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent"
+                className="text-xl sm:text-2xl lg:text-2xl font-black bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent"
                 animate={{
                   backgroundPosition: ['0%', '100%', '0%']
                 }}
@@ -322,14 +322,14 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         )
       }
 
-      <div className="mb-3 sm:mb-4 lg:mb-3 glass-panel p-3 sm:p-4 lg:p-4 rounded-lg sm:rounded-xl lg:rounded-xl relative overflow-hidden">
-        <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-2 relative z-10">
-          <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
-            <span className="text-xl sm:text-2xl lg:text-xl font-black text-white">
+      <div className="mb-3 sm:mb-4 lg:mb-4 glass-panel p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl lg:rounded-2xl relative overflow-hidden">
+        <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-3 relative z-10">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-3">
+            <span className="text-xl sm:text-2xl lg:text-2xl font-black text-white">
               {currentQuestionIndex + 1}
             </span>
             <span className="text-white/20 font-medium">/</span>
-            <span className="text-base sm:text-lg lg:text-base font-medium text-white/40">{totalQuestions}</span>
+            <span className="text-base sm:text-lg lg:text-lg font-medium text-white/40">{totalQuestions}</span>
 
             <div className="hidden sm:flex items-center gap-2 ml-4">
               <div className="h-6 w-px bg-white/10"></div>
@@ -353,7 +353,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
           )}
         </div>
 
-        <div className="relative w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5">
+        <div className="relative w-full h-2 lg:h-2.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
           <div
             className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-700 ease-out"
             style={{ width: `${progressPercent}%` }}
@@ -364,7 +364,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         </div>
       </div>
 
-      <div className="mb-4 sm:mb-6 lg:mb-2 lg:flex-1 lg:min-h-0">
+      <div className="mb-4 sm:mb-6 lg:mb-4 lg:flex-1 lg:min-h-0">
         <QuestionInteractive
           key={currentQuestion.id}
           question={currentQuestion}
@@ -375,12 +375,12 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         />
       </div>
 
-      <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-2 px-1 sm:px-2 lg:mt-1">
+      <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-3 px-1 sm:px-2 lg:mt-2">
         <button
           onClick={goToPreviousQuestion}
           disabled={currentQuestionIndex === 0}
           className={cn(
-            "flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 lg:px-3 py-2.5 sm:py-3 lg:py-2 rounded-lg sm:rounded-xl lg:rounded-lg font-bold text-xs sm:text-sm lg:text-xs transition-all duration-300 georgian-body border",
+            "flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 lg:px-4 py-2.5 sm:py-3 lg:py-2.5 rounded-lg sm:rounded-xl lg:rounded-xl font-bold text-xs sm:text-sm lg:text-sm transition-all duration-300 georgian-body border",
             currentQuestionIndex === 0
               ? "text-white/20 border-transparent cursor-not-allowed"
               : "text-blue-200 hover:text-white bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
@@ -394,7 +394,7 @@ export function SingleQuestionQuiz({ questions, lessonId, lessonTitle }: SingleQ
         {answeredQuestions.has(currentQuestionIndex) && (
           <button
             onClick={goToNextQuestion}
-            className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-8 lg:px-4 py-2.5 sm:py-3.5 lg:py-2 rounded-lg sm:rounded-xl lg:rounded-lg font-bold text-sm sm:text-base lg:text-sm transition-all duration-300 georgian-body shadow-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 hover:shadow-emerald-500/25 hover:scale-[1.02] active:scale-[0.98] border border-emerald-400/20"
+            className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-8 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 rounded-lg sm:rounded-xl lg:rounded-xl font-bold text-sm sm:text-base lg:text-base transition-all duration-300 georgian-body shadow-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 hover:shadow-emerald-500/25 hover:scale-[1.02] active:scale-[0.98] border border-emerald-400/20"
           >
             {currentQuestionIndex === totalQuestions - 1 ? 'დასრულება' : 'შემდეგი'}
             {currentQuestionIndex !== totalQuestions - 1 && <ArrowRight className="w-4 h-4" />}
