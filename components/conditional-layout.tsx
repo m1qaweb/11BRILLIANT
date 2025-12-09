@@ -8,16 +8,16 @@ import { cn } from '@/lib/utils'
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
-  // Check if we're on a lesson/quiz page or auth page
+
   const isLessonPage = pathname?.includes('/lessons/')
   const isAuthPage = pathname?.startsWith('/auth/')
 
   if (isLessonPage || isAuthPage) {
-    // Quiz mode or Auth pages: NO header, NO footer, just content
+
     return <>{children}</>
   }
 
-  // Normal pages: WITH header and footer
+
   const isHomePage = pathname === '/'
 
   return (
@@ -25,7 +25,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       <HeaderNav />
       <main className={cn("flex-1", !isHomePage && "pt-16 md:pt-20")}>{children}</main>
 
-      {/* Footer */}
+
       <footer className="bg-primary text-primary-foreground mt-auto">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
